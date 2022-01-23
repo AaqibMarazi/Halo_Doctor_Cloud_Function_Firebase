@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "firebase-admin": "^10.0.1",
+    "agora-access-token":"^2.0.4"
+  }
+}

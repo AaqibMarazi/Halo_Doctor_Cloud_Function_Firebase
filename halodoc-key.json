@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "halodoctor-a1660",
+  "private_key_id": "c4ef327f90cb5ed61cc07730c1c69aab1173d633",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC3ZjomOZJ55NAy\nYird/JPbBKyLVIzAfxoLv3Er0oaOqvyKPz8n7cnxgZf1bFA3O+tYMgMWBurg4qBa\nuqtHa1UebLFARNcF6M8CBK1VBMSAcH4+81ixKL9alt2HdMzeDZ3ty+7r+KGsUOhn\ne3p2n34WPPPzrn2d/CPWJ0zl0EWIALDxQek7ocMMLEjQhum/Z5q8c62PrgXuN17o\nWg1dEzkRNGLYSwlKNfmCxChzRvKO69M0P+nmpQbXbN1y5vbId1rnTyrcKnGf9HMB\n/ogsL3m+CJnejL93a2B1QzSJ3eBwwVq5vyg1He1Bt26dMmFMtyhV5Q7x/TlySUwm\nRX2ZnCyVAgMBAAECggEAAhXCo3p6ewc26ezKLuefqvbVTkaad09hAkrIN6jshikZ\nWRkCLTOiEBs4iBvimD4o0GQjTE959Kav/iTd8NOE463Ky2pjVlog0WrsMdALh5cV\nJSVEbWWUZTTbeXwXyTkl39MDTnt3zkSjm3zE8+qwiiRy/UkosCwuMXO/3JaXb4Gz\n+ieH4Mamv8NtVjXeFM+okoQ0Ms02m5zTv5niyUvVsewMHgX0tcQTo3sj5qRFJ0vX\n8xoJ+79EAeY/2IzPJeVM1dKzDe323pFQ5YFK7a0o8Bw5ORYCk8Owwl+6GCMeY+5n\ngNwnjfzQvnOCkVmDK/wnYqIQTKrEMv9oi2jRh0qUAQKBgQDdIOggwmMRMGulFLgV\nGXMNOebvhH+jfcHFqp5Sbrno8UyslmLlufcG7xSrBd+LCoA/mTj2QLvINBKQRBNv\n4lfGujJadIZpfuLFdPmhTo+v1DNZlnJPb28/eAEuQQebe43ZmnQvLnigVYsRC+6l\n9RiBvm6K6CpMW2k8S41jC4bttQKBgQDUUitFtgoU/dJ+tEsQwAU2FeQLWa1CRSG0\n2zmJF97h2JJxArTOWzMafntK+J1xGoaXFU30aKScPrTG6CRCt4P6RdPyFwb8rTED\nt4OPz0zi22pTKiFs2yJW+uRQjCGKjXvOtNnD4WkUpFf+zoi6vHSgxyjo5ThVBvnI\nVcLeOmSPYQKBgHmTXgyk01LgDE721T7Efz0GWLHXZ1W8Do1fASzRM+WexUkeZcFo\nPSjSyco9sGoBnAFbfLXnYVbxSkOHKiiZiSj5tjWFW2ElIgjuB1FooBdL0++th6uk\n2MVMdVm45zXU+GhrQvWt1yRP4+W7abpUxuSOjrhQbPEOUQ2VfGa4L7cBAoGAAtTd\nst5MoB8KcZoh7iVBbIk6M1SM1PdrDahmygdBd62VtmAc3SumMNJC/qr2Ho4GAXnN\nQlcq6tKDQqvR3/nmjq3jt7TK6Q++OZh27rILCnN2pYlITNVXTeWmqdRUli5w2j7b\nMJuO9TGD4ugKNsNQotxFFWYJLEkdh6htIt2QfcECgYBG1xz6yjHKek2TycuIO4PX\nxSEgnHjF/1t0CQ4IEtQ+aX81G8ArBNZxeJuZIqLuY7SR2YcWTOIK/iyxWY+PeAmD\nb2Q6RXoHw8xpjAzL5wJjmRSwzmoxkFoVG0BQhX1znPsQDX/A7fh6eiu9lDIPRA7r\nJe5KAsN/APon23iSMfbQXg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "halodoctor-a1660@appspot.gserviceaccount.com",
+  "client_id": "107192953351278955311",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/halodoctor-a1660%40appspot.gserviceaccount.com"
+}
