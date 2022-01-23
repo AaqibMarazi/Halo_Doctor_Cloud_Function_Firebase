@@ -5,11 +5,6 @@ const admin = require('firebase-admin');
 const db = admin.firestore();
 const { firestore } = require('firebase-admin');
 
-exports.userAdded = functions.auth.user().onCreate(user => {
-    console.log(`${user.email}.`);
-    return Promise.resolve();
-});
-
 exports.doctorAdded = functions.firestore.document('/Doctors/{doctorId}').onCreate((snapshot, context) => {
     snapshot.ref.update({ 'balance': 0 });
     return Promise.resolve();
