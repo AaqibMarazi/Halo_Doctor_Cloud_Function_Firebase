@@ -4,6 +4,7 @@ const agoraFunction = require('./agora-functions');
 const admin = require('firebase-admin');
 const db = admin.firestore();
 const { firestore } = require('firebase-admin');
+const dbSeeding = require('./uploader.js');
 
 exports.doctorAdded = functions.firestore.document('/Doctors/{doctorId}').onCreate((snapshot, context) => {
     snapshot.ref.update({ 'balance': 0 });
@@ -80,8 +81,7 @@ exports.confirmConsultation = functions.firestore.document('/Order/{orderId}').o
 });
 
 
-
 exports.purchaseTimeslot = stripeFunction.purchaseTimeslot;
 exports.generateToken = agoraFunction.generateToken;
 exports.stripeWebhook = stripeFunction.stripeWebhook;
-exports.stripeTesting = stripeFunction.stripeTesting;
+exports.dbSeeding = dbSeeding.dbSeed;
