@@ -28,7 +28,7 @@ exports.generateToken = functions.https.onCall(async (request, response) => {
         const currentTime = Math.floor(Date.now() / 1000);
         const privilegeExpireTime = currentTime + expireTime;
 
-        const token = RtcTokenBuilder.buildTokenWithUid('5918380664394b78bd3b16842b254f3c', 'ebecd53a7f384d4c84c4a78babcca4bd', channelName, uid, role, privilegeExpireTime);
+        const token = RtcTokenBuilder.buildTokenWithUid('a62e2d5feafc4d18b2bb665c3989', '0d467d4b50cf4411a067b59a13be', channelName, uid, role, privilegeExpireTime);
         console.log('token : ' + token);
         console.log('room name : ' + channelName);
 
