@@ -6,17 +6,19 @@
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "setup-firebase":"plop"
   },
   "engines": {
     "node": "16"
   },
   "main": "index.js",
   "dependencies": {
+    "agora-access-token": "^2.0.4",
     "firebase-admin": "^9.8.0",
     "firebase-functions": "^3.14.1",
-    "stripe": "^8.197.0",
-    "agora-access-token":"^2.0.4"
+    "plop": "^3.0.5",
+    "stripe": "^8.197.0"
   },
   "devDependencies": {
     "firebase-functions-test": "^0.2.0"
