@@ -59,12 +59,16 @@ service cloud.firestore {
     function isAdmin() {
       return request.auth.token.isAdmin == true;
     }
-    
-
-    function isIdentified() {
-      return request.auth.uid == userId;
+    match /Rooms/{roomId} {
+     allow read,write: if isAuthenticated();
     }
     
+    match /Rooms/{roomid}/messages/{messageId} {
+    allow read,write: if isAuthenticated();
+    }
     
+    match /users/{userId} {
+      allow read,write : if true;
+  	}
   }
 }
