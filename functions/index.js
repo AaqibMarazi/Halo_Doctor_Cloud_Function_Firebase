@@ -1,6 +1,7 @@
 const functions = require("firebase-functions");
 const stripeFunction = require("./stripe-function");
 const agoraFunction = require("./agora-functions");
+const notificationFunction = require("./notification-function");
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const { firestore } = require("firebase-admin");
@@ -108,3 +109,6 @@ exports.confirmConsultation = functions.firestore
 exports.purchaseTimeslot = stripeFunction.purchaseTimeslot;
 exports.generateToken = agoraFunction.generateToken;
 exports.stripeWebhook = stripeFunction.stripeWebhook;
+exports.notificationTest = notificationFunction.notificationTest;
+exports.notificationStartAppointment =
+  notificationFunction.notificationStartAppointment;
