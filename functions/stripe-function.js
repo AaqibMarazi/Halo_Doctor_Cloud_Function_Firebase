@@ -40,7 +40,6 @@ exports.stripeWebhook = functions.https.onRequest(async (request, response) => {
   let event;
   try {
     const stripeWebhookSecret = functions.config().stripe.webhook_secret;
-    //const stripeWebhookSecret = 'functions.config().stripe.webhook_secret;'
     event = stripe.webhooks.constructEvent(
       request.rawBody,
       request.headers["stripe-signature"],

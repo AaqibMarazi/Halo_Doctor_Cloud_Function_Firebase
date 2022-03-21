@@ -62,6 +62,9 @@ service cloud.firestore {
     match /Rooms/{roomId} {
      allow read,write: if isAuthenticated();
     }
+    match /RoomVideoCall/{roomIdVideoCall} {
+     allow read,write: if isAuthenticated();
+    }
     
     match /Rooms/{roomid}/messages/{messageId} {
     allow read,write: if isAuthenticated();
