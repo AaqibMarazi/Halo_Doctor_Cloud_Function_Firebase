@@ -5,6 +5,7 @@ const admin = require("firebase-admin");
 admin.initializeApp();
 const db = admin.firestore();
 const notificationFunction = require("./notification-function");
+const timeslotFunction = require("./timeslot-function");
 
 const { firestore } = require("firebase-admin");
 exports.purchaseTimeslot = functions.https.onCall(async (request, response) => {
@@ -21,6 +22,7 @@ exports.purchaseTimeslot = functions.https.onCall(async (request, response) => {
       currency: "usd",
       payment_method_types: ["card"],
     });
+
     console.log("user id request : " + request.userId);
     db.collection("Order").add({
       createdAt: firestore.Timestamp.fromDate(new Date()),
@@ -131,4 +133,44 @@ exports.stripeWebhook = functions.https.onRequest(async (request, response) => {
 
   // Return a 200 response to acknowledge receipt of the event
   response.send();
+});
+
+exports.refundTimeslot = functions.https.onCall(async (request, response) => {
+  try {
+    console.log("timeslot id : " + request.timeSlotId);
+
+    let orderSnapshot = await db
+      .collection("Order")
+      .where("timeSlotId", "==", request.timeSlotId)
+      .get();
+
+    let order = orderSnapshot.docs[0];
+    console.log("order obejct : " + JSON.stringify(order));
+
+    console.log("stripe payment id : " + order.data().stripePaymentId);
+
+    const refund = await stripe.refunds.create({
+      payment_intent: order.data().stripePaymentId,
+    });
+
+    console.log("refund object : " + JSON.stringify(refund));
+
+    if (refund.status == "succeeded") {
+      let refundData = await db.collection("Refund").add({
+        createdAt: firestore.Timestamp.fromDate(new Date()),
+        timeSlotId: request.timeSlotId,
+        stripePaymentId: order.data().stripePaymentId,
+        status: refund.status,
+        amount: refund.amount,
+        refundId: refund.id,
+        currency: refund.currency,
+      });
+      await timeslotFunction.refundTimeslot(request.timeSlotId, refundData.id);
+      console.log("refund success : " + JSON.stringify(refund));
+    } else {
+      throw "refund failed";
+    }
+  } catch (e) {
+    throw e;
+  }
 });

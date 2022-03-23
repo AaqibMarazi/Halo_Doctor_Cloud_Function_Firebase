@@ -109,6 +109,7 @@ exports.confirmConsultation = functions.firestore
   });
 
 exports.purchaseTimeslot = stripeFunction.purchaseTimeslot;
+exports.refundTimeslot = stripeFunction.refundTimeslot;
 exports.generateToken = agoraFunction.generateToken;
 exports.stripeWebhook = stripeFunction.stripeWebhook;
 exports.notificationTest = notificationFunction.notificationTest;
