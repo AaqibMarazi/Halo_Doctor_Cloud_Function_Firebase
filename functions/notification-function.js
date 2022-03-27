@@ -47,12 +47,21 @@ async function orderedTimeslotNotification(doctorId) {
     "one of your timeslots has been booked"
   );
 }
+/**
+ * send notification to doctor, when timeslot is reschedule
+ * @param doctorId the doctor id
+ */
+async function rescheduleTimeslotNotification(doctorId) {
+  let doctorUser = await userService.getUserByDoctorId(doctorId);
+  let doctorToken = await userService.getUserTokenById(doctorUser.id);
+  await sendNotification(
+    doctorToken,
+    "Reschedule Appointment",
+    "one of your timeslots has been rescheduled"
+  );
+}
 
 async function sendNotification(token, title, message) {
-  console.log("------- Test notification function start ----------");
-  //   let token =
-  //     "fjch85HORgisi_8ujM84fs:APA91bFoAFvKgfZXo0ymAqmnK1nTcsK_pEpQ6FiOnZYs61zSsBFv8y2e_mgg1Y7-Nt7qTZ8J7ltJcqePTAFnoX3ioPIZiT49cTQ_EtQdwc_E584WRRY2-EKUyDqyeOSH4JW_SFgiKeCV";
-
   const payload = {
     notification: {
       title: title,
@@ -74,3 +83,4 @@ async function sendNotification(token, title, message) {
 }
 module.exports.sendNotification = sendNotification;
 module.exports.orderedTimeslotNotification = orderedTimeslotNotification;
+module.exports.rescheduleTimeslotNotification = rescheduleTimeslotNotification;

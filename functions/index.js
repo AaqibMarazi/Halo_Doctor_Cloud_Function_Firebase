@@ -4,6 +4,7 @@ const agoraFunction = require("./agora-functions");
 const notificationFunction = require("./notification-function");
 const doctorFunction = require("./doctor-functions");
 const userFunction = require("./user-functions");
+const timeSlotFunction = require("./timeslot-function");
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const { firestore } = require("firebase-admin");
@@ -117,3 +118,4 @@ exports.notificationStartAppointment =
   notificationFunction.notificationStartAppointment;
 exports.deleteDoctor = doctorFunction.deleteDoctor;
 exports.deleteUser = userFunction.deleteUser;
+exports.rescheduleTimeslot = timeSlotFunction.rescheduleTimeslot;
