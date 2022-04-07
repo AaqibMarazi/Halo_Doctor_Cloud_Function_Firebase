@@ -74,5 +74,9 @@ service cloud.firestore {
     match /users/{userId} {
       allow read,write : if true;
   	}
+    match /Settings/{settingsId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+  	}
   }
 }

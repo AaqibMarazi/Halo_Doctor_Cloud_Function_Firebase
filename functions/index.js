@@ -5,6 +5,7 @@ const notificationFunction = require("./notification-function");
 const doctorFunction = require("./doctor-functions");
 const userFunction = require("./user-functions");
 const timeSlotFunction = require("./timeslot-function");
+const withdrawFunction = require("./withdraw-functions");
 const admin = require("firebase-admin");
 const db = admin.firestore();
 const { firestore } = require("firebase-admin");
@@ -13,45 +14,6 @@ exports.doctorAdded = functions.firestore
   .document("/Doctors/{doctorId}")
   .onCreate((snapshot, context) => {
     snapshot.ref.update({ balance: 0 });
-    return Promise.resolve();
-  });
-
-//Doctor request money withdrawal
-exports.withdrawRequest = functions.firestore
-  .document("/WithdrawRequest/{withdrawRequestId}")
-  .onCreate(async (snapshot, context) => {
-    let userId = snapshot.data().userId;
-    console.log("user Id : " + userId);
-    console.log("snapshot data : " + JSON.stringify(snapshot.data()));
-    let doctorId = await db
-      .collection("Users")
-      .doc(userId)
-      .get()
-      .then((doc) => {
-        return doc.data().doctorId;
-      });
-    console.log("doctor id : " + doctorId);
-    //decrease doctor balance amount
-    await db
-      .collection("Doctors")
-      .doc(doctorId)
-      .get()
-      .then((querySnapshot) => {
-        let doctorBalance = querySnapshot.data().balance;
-        console.log("balance : " + doctorBalance);
-        let balanceNow = (doctorBalance -= snapshot.data().amount);
-        querySnapshot.ref.update({ balance: balanceNow });
-        console.log("balance now : " + balanceNow);
-      });
-    //add transaction
-    await db.collection("Transaction").add({
-      userId: userId,
-      withdrawMethod: snapshot.data().withdrawMethod,
-      amount: snapshot.data().amount,
-      status: "pending",
-      type: "withdraw",
-      createdAt: firestore.Timestamp.fromDate(new Date()),
-    });
     return Promise.resolve();
   });
 
@@ -119,3 +81,4 @@ exports.notificationStartAppointment =
 exports.deleteDoctor = doctorFunction.deleteDoctor;
 exports.deleteUser = userFunction.deleteUser;
 exports.rescheduleTimeslot = timeSlotFunction.rescheduleTimeslot;
+exports.withdrawRequiest = withdrawFunction.withdrawRequest;
