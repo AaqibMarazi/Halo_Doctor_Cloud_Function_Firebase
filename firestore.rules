@@ -38,9 +38,11 @@ service cloud.firestore {
     }
     match /WithdrawRequest/{withdrawRequestId}{
     allow read,create: if isAuthenticated() && get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.role == 'doctor' || isAdmin();
+    allow update: if isAdmin();
     }
     match /Transaction/{transactionId}{
     allow read,create: if isAuthenticated();
+    allow update: if isAdmin();
     }
     match /Review/{reviewId}{
     allow read,create,update: if isAuthenticated();

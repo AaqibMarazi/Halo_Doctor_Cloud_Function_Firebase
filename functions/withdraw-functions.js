@@ -1,6 +1,7 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const db = admin.firestore();
+const { firestore } = require("firebase-admin");
 //Doctor request money withdrawal
 exports.withdrawRequest = functions.firestore
   .document("/WithdrawRequest/{withdrawRequestId}")
@@ -8,6 +9,7 @@ exports.withdrawRequest = functions.firestore
     let userId = snapshot.data().userId;
     console.log("user Id : " + userId);
     console.log("snapshot data : " + JSON.stringify(snapshot.data()));
+
     let withdrawSettings = await db
       .collection("Settings")
       .doc("withdrawSetting")
@@ -41,11 +43,12 @@ exports.withdrawRequest = functions.firestore
       adminFee: adminFee.toFixed(2),
       tax: taxCut.toFixed(2),
       totalWithdraw: totalAmount.toFixed(2),
+      status: "pending",
+      createdAt: firestore.Timestamp.fromDate(new Date()),
     });
     //let balanceNow = (doctorBalance -= snapshot.data().amount);
 
     await doctor.ref.update({ balance: 0 });
-    console.log("balance now : " + balanceNow);
 
     //add transaction
     await db.collection("Transaction").add({
@@ -55,6 +58,8 @@ exports.withdrawRequest = functions.firestore
       status: "pending",
       type: "withdraw",
       createdAt: firestore.Timestamp.fromDate(new Date()),
+      withdrawRequestId: snapshot.id,
     });
+
     return Promise.resolve();
   });
