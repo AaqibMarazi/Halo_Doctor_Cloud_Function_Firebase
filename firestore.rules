@@ -14,7 +14,7 @@ service cloud.firestore {
     	match /balance {
       allow read:if isAuthenticated() && get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.role == 'doctor';
       }
-    allow update:if get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.doctorId == resource.id;
+    allow update:if get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.doctorId == resource.id || isAdmin();
     }
   
   	match /DoctorCategory/{categoryId}{
