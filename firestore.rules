@@ -80,5 +80,9 @@ service cloud.firestore {
       allow read: if isAuthenticated();
       allow write: if isAdmin();
   	}
+    match /Settings/{name=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+  	}
   }
 }
