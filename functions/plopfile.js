@@ -144,18 +144,18 @@ const config = function (plop) {
     actions: (data) => {
       const action = [];
       if (data.wantoSetupEmailPass) {
-        action.push = {
+        action.push({
           type: "registerAuth",
           speed: "slow",
           data: data,
-        };
+        });
       }
       if (data.wantoAddDefaultCategory) {
-        action.push = {
+        action.push({
           type: "dataSeed",
           speed: "slow",
           data: data,
-        };
+        });
       }
       return action;
     },
