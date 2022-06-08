@@ -81,10 +81,26 @@ const config = function (plop) {
     description: "Setup Project",
     prompts: [
       {
+        type: "confirm",
+        name: "wantoSetupEmailPass",
+        default: true,
+        message: "Do you want to setup Admin Email & Password",
+      },
+      {
+        type: "confirm",
+        name: "wantoAddDefaultCategory",
+        default: true,
+        message:
+          "Do you want to add default Category in database, you can change it later in Admin Dashboard",
+      },
+      {
         type: "input",
         name: "service_account_path",
         message:
           "Enter the path to the service account key file: (eg myserviceacount.json) : ",
+        when: ({ wantoSetupEmailPass, wantoAddDefaultCategory }) => {
+          return wantoSetupEmailPass || wantoAddDefaultCategory;
+        },
         validate: (value) => {
           if (!checkServiceAccountExist(value)) {
             return "there is no service account in that path, make sure there is a file name";
@@ -96,18 +112,27 @@ const config = function (plop) {
         type: "input",
         name: "database_url",
         message: "Enter database URL: ",
+        when: ({ wantoSetupEmailPass, wantoAddDefaultCategory }) => {
+          return wantoSetupEmailPass || wantoAddDefaultCategory;
+        },
       },
       {
         type: "input",
         name: "email",
         message:
           "Enter Admin Email: (will be used to login to the Web Admin Dashboard) : ",
+        when: ({ wantoSetupEmailPass }) => {
+          return wantoSetupEmailPass;
+        },
       },
       {
         type: "input",
         name: "password",
         message: "Enter Admin Password : (minimum 6 character)",
         mask: "*",
+        when: ({ wantoSetupEmailPass }) => {
+          return wantoSetupEmailPass;
+        },
         validate: (value) => {
           if (value.length < 6) {
             return "Password must be more than 6 characters";
@@ -117,18 +142,22 @@ const config = function (plop) {
       },
     ],
     actions: (data) => {
-      return [
-        {
+      const action = [];
+      if (data.wantoSetupEmailPass) {
+        action.push = {
           type: "registerAuth",
           speed: "slow",
           data: data,
-        },
-        {
+        };
+      }
+      if (data.wantoAddDefaultCategory) {
+        action.push = {
           type: "dataSeed",
           speed: "slow",
           data: data,
-        },
-      ];
+        };
+      }
+      return action;
     },
   });
 };
