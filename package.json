@@ -1,7 +1,15 @@
 {
+  "scripts": {
+    "build": "npm run tsc"
+  },
   "dependencies": {
     "agora-access-token": "^2.0.4",
     "axios": "^0.27.2",
     "firebase-admin": "^10.0.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.30.5",
+    "@typescript-eslint/parser": "^5.30.5",
+    "typescript": "^4.7.4"
   }
 }
