@@ -6,8 +6,7 @@ const doctorFunction = require("./doctor-functions");
 const userFunction = require("./user-functions");
 const timeSlotFunction = require("./timeslot-function");
 const withdrawFunction = require("./withdraw-functions");
-const paystackFunction = require("./paystack-functions");
-import * as admin from 'firebase-admin';
+import * as admin from "firebase-admin";
 const db = admin.firestore();
 const { firestore } = require("firebase-admin");
 
@@ -83,5 +82,3 @@ exports.deleteDoctor = doctorFunction.deleteDoctor;
 exports.deleteUser = userFunction.deleteUser;
 exports.rescheduleTimeslot = timeSlotFunction.rescheduleTimeslot;
 exports.withdrawRequiest = withdrawFunction.withdrawRequest;
-exports.requestPaystackPaymentUrl = paystackFunction.requestPaystackPaymentUrl;
-exports.paystackWebhook = paystackFunction.paystackWebhook;
