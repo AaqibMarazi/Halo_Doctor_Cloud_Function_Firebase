@@ -51,7 +51,7 @@ type DoctorCategoryModel = {
   categoryId: string;
 };
 
-type UserModel = {
+export type UserModel = {
   createdAt: firestore.Timestamp;
   displayName: string;
   doctorId: string;

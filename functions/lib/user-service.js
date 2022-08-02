@@ -1,59 +1,41 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteUser = exports.deleteDoctor = exports.getUserByDoctorId = exports.getUserTokenById = void 0;
+const collections_1 = require("./collections");
 const admin = require("firebase-admin");
-const db = admin.firestore();
-async function getUserTokenById(userId) {
-    try {
-        let user = await db.collection("Users").doc(userId).get();
-        let userToken = user.data().token;
-        if (!userToken)
-            return "";
-        return userToken;
-    }
-    catch (error) {
-        throw error;
-    }
+async function getUserTokenById(token) {
+    return Promise.resolve("usertoken");
 }
+exports.getUserTokenById = getUserTokenById;
 async function getUserByDoctorId(doctorId) {
-    try {
-        let doctor = await db
-            .collection("Users")
-            .where("doctorId", "==", doctorId)
-            .get();
-        console.log("🚀 ~ file: user-service.js ~ line 22 ~ getUserByDoctorId ~ user by doctor id", doctor);
-        return doctor.docs[0];
-    }
-    catch (error) {
-        throw error;
-    }
+    var userRef = await collections_1.usersCol.where("doctorId", "==", doctorId).get();
+    return userRef.docs[0].data();
 }
+exports.getUserByDoctorId = getUserByDoctorId;
 async function deleteUserInDb(userId) {
     try {
-        await db.collection("Users").doc(userId).delete();
+        await collections_1.usersCol.doc(userId).delete();
         console.log("success delete user in Db");
     }
     catch (error) {
-        console.log("fail delete user id Db");
-        throw error;
+        console.log("fail delete user in auth");
     }
 }
 async function deleteUserInAuth(userId) {
     try {
-        admin.auth().deleteUser(userId);
+        await admin.auth().deleteUser(userId);
         console.log("success delete user in auth");
     }
     catch (error) {
-        console.log("fail delete user in auth");
-        throw error;
+        console.log("error delete user");
     }
 }
 async function deleteDoctor(doctorId) {
     try {
         let user = await getUserByDoctorId(doctorId);
-        console.log("🚀 ~ file: user-service.js ~ line 50 ~ deleteDoctor ~ user", user);
-        await db.collection("Doctors").doc(doctorId).delete();
-        console.log("🚀 ~ file: user-service.js ~ line 50 ~ deleteDoctor ~ user", user);
+        await collections_1.doctorCol.doc(doctorId).delete();
         if (user) {
-            await deleteUser(user.id);
+            await deleteUser(user.uid);
             console.log("success delete user");
         }
         else {
@@ -63,22 +45,19 @@ async function deleteDoctor(doctorId) {
     }
     catch (error) {
         console.log("🚀 ~ file: user-service.js ~ line 67 ~ deleteDoctor ~ error", error);
-        console.log("success delete doctor");
         throw error;
     }
 }
+exports.deleteDoctor = deleteDoctor;
 async function deleteUser(userId) {
     try {
         await deleteUserInAuth(userId);
         await deleteUserInDb(userId);
     }
     catch (error) {
-        console.log("fail delete user");
+        console.log("failed delete user");
         throw error;
     }
 }
-module.exports.getUserTokenById = getUserTokenById;
-module.exports.getUserByDoctorId = getUserByDoctorId;
-module.exports.deleteDoctor = deleteDoctor;
-module.exports.deleteUser = deleteUser;
+exports.deleteUser = deleteUser;
 //# sourceMappingURL=user-service.js.map

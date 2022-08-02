@@ -1,71 +1,56 @@
 "use strict";
-const functions = require("firebase-functions");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sendNotification = exports.rescheduleTimeslotNotification = exports.orderedTimeslotNotification = void 0;
 const admin = require("firebase-admin");
-const userService = require("./user-service");
-exports.notificationTest = functions.https.onCall(async (request, response) => {
-    // console.log("Test notification");
-    // let doctorUser = await userService.getUserByDoctorId("fcsLbxAIPXIYypnszNRo");
-    // let doctorToken = await userService.getUserTokenById(doctorUser.id);
-    // await sendNotification(
-    //   doctorToken,
-    //   "Timeslot Ordered!",
-    //   "one of your timeslots has been booked"
-    // );
-    //await testNotification();
-});
-/** Send notification to user, when doctor start appointment
- *
- */
+const functions = require("firebase-functions");
+const user_service_1 = require("./user-service");
 exports.notificationStartAppointment = functions.https.onCall(async (request, response) => {
-    // console.log("Test notification");
-    // let doctorUser = await userService.getUserByDoctorId("fcsLbxAIPXIYypnszNRo");
-    // let doctorToken = await userService.getUserTokenById(doctorUser.id);
     console.log("Start appointment notification send");
     let doctorName = request.doctorName;
     let userId = request.userId;
-    let userToken = await userService.getUserTokenById(userId);
+    let userToken = await (0, user_service_1.getUserTokenById)(userId); //await userService.getUserTokenById(userId);
     console.log("token user : " + userToken);
     await sendNotification(userToken, `Hi. ${doctorName} has started the consultation session`, "Please join the room, to start the consultation session");
 });
-/**
- * send notification to doctor, when his timeslot is ordered
- * @param doctorId the doctor id
- */
 async function orderedTimeslotNotification(doctorId) {
-    let doctorUser = await userService.getUserByDoctorId(doctorId);
-    let doctorToken = await userService.getUserTokenById(doctorUser.id);
-    await sendNotification(doctorToken, "Timeslot Ordered!", "one of your timeslots has been booked");
+    try {
+        let doctorUser = await (0, user_service_1.getUserByDoctorId)(doctorId);
+        await sendNotification(doctorUser.token, "Timeslot Ordered!", "one of your timeslots has been booked");
+    }
+    catch (error) { }
 }
+exports.orderedTimeslotNotification = orderedTimeslotNotification;
 /**
  * send notification to doctor, when timeslot is reschedule
  * @param doctorId the doctor id
  */
 async function rescheduleTimeslotNotification(doctorId) {
-    let doctorUser = await userService.getUserByDoctorId(doctorId);
-    let doctorToken = await userService.getUserTokenById(doctorUser.id);
-    await sendNotification(doctorToken, "Reschedule Appointment", "one of your timeslots has been rescheduled");
+    try {
+        let doctorUser = await (0, user_service_1.getUserByDoctorId)(doctorId);
+        await sendNotification(doctorUser.token, "Reschedule Appointment", "one of your timeslots has been rescheduled");
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
+exports.rescheduleTimeslotNotification = rescheduleTimeslotNotification;
 async function sendNotification(token, title, message) {
-    const payload = {
-        notification: {
-            title: title,
-            body: message,
-        },
-        data: {
-            personSent: "testing",
-        },
-    };
-    admin
-        .messaging()
-        .sendToDevice(token, payload)
-        .then(function (response) {
+    try {
+        const payload = {
+            notification: {
+                title: title,
+                body: message,
+            },
+            data: {
+                personSent: "testing",
+            },
+        };
+        let response = await admin.messaging().sendToDevice(token, payload);
         console.log("Successfully send notification: ", response);
-    })
-        .catch(function (error) {
+    }
+    catch (error) {
         console.log("Error send notification :", error);
-    });
+    }
 }
-module.exports.sendNotification = sendNotification;
-module.exports.orderedTimeslotNotification = orderedTimeslotNotification;
-module.exports.rescheduleTimeslotNotification = rescheduleTimeslotNotification;
+exports.sendNotification = sendNotification;
 //# sourceMappingURL=notification-function.js.map
