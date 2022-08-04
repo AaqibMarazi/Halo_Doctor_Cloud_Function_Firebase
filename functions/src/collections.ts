@@ -30,6 +30,8 @@ type TimeSlotModel = {
   timeSlot: firestore.Timestamp;
   bookByWho: BookByWho | undefined;
   doctor: DoctorModel | undefined;
+  purchaseTime: firestore.Timestamp | undefined | null;
+  status: string | undefined;
 };
 
 type DoctorModel = {

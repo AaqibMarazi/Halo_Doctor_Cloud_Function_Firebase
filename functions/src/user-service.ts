@@ -1,7 +1,8 @@
 import { usersCol, UserModel, doctorCol } from "./collections";
 import * as admin from "firebase-admin";
-export async function getUserTokenById(token: string): Promise<string> {
-  return Promise.resolve("usertoken");
+export async function getUserTokenById(userId: string): Promise<string> {
+  let user = await usersCol.doc(userId).get();
+  return Promise.resolve(user.data()?.token!);
 }
 
 export async function getUserByDoctorId(doctorId: string): Promise<UserModel> {

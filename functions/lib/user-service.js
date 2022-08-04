@@ -3,8 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.deleteDoctor = exports.getUserByDoctorId = exports.getUserTokenById = void 0;
 const collections_1 = require("./collections");
 const admin = require("firebase-admin");
-async function getUserTokenById(token) {
-    return Promise.resolve("usertoken");
+async function getUserTokenById(userId) {
+    var _a;
+    let user = await collections_1.usersCol.doc(userId).get();
+    return Promise.resolve((_a = user.data()) === null || _a === void 0 ? void 0 : _a.token);
 }
 exports.getUserTokenById = getUserTokenById;
 async function getUserByDoctorId(doctorId) {
