@@ -1,4 +1,5 @@
 import { firestore } from "firebase-admin";
+import { PaymentMethod } from "./payment-functions";
 
 export enum OrderStatus {
   notPay = "notPay",
@@ -17,6 +18,8 @@ export type OrderModel = {
   timeSlotId: string;
   userId: string;
   createdAt: firestore.Timestamp;
+  stripePaymentId?: string;
+  paymentMethod?: PaymentMethod;
 };
 
 type TimeSlotModel = {
@@ -53,6 +56,16 @@ type DoctorCategoryModel = {
   categoryId: string;
 };
 
+export type RefundModel = {
+  createdAt: firestore.Timestamp;
+  timeSlotId: string;
+  status: string;
+  amount: number;
+  refundId: string;
+  currency: string;
+  paymentId?: string;
+};
+
 export type UserModel = {
   createdAt: firestore.Timestamp;
   displayName: string;
@@ -61,6 +74,7 @@ export type UserModel = {
   token: string;
   uid: string;
   email: string;
+  photoUrl: string;
 };
 
 export type BookByWho = {
@@ -81,3 +95,4 @@ export const orderCol = createCollection<OrderModel>("Order");
 export const timeSlotCol = createCollection<TimeSlotModel>("DoctorTimeslot");
 export const doctorCol = createCollection<DoctorModel>("Doctors");
 export const usersCol = createCollection<UserModel>("Users");
+export const refundCol = createCollection<RefundModel>("Refund");

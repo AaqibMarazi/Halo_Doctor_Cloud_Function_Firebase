@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.usersCol = exports.doctorCol = exports.timeSlotCol = exports.orderCol = exports.Role = exports.OrderStatus = void 0;
+exports.refundCol = exports.usersCol = exports.doctorCol = exports.timeSlotCol = exports.orderCol = exports.Role = exports.OrderStatus = void 0;
 const firebase_admin_1 = require("firebase-admin");
 var OrderStatus;
 (function (OrderStatus) {
@@ -20,4 +20,5 @@ exports.orderCol = createCollection("Order");
 exports.timeSlotCol = createCollection("DoctorTimeslot");
 exports.doctorCol = createCollection("Doctors");
 exports.usersCol = createCollection("Users");
+exports.refundCol = createCollection("Refund");
 //# sourceMappingURL=collections.js.map
