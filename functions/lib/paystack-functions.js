@@ -10,31 +10,6 @@ const functions = require("firebase-functions");
 const axios_1 = require("axios");
 const payment_functions_1 = require("./payment-functions");
 const collections_1 = require("./collections");
-// type PaystackSuccessData = {
-//   id: number;
-//   domain: string;
-//   amount: number;
-//   currency: string;
-//   due_date: string | null;
-//   has_invoice: boolean;
-//   invoice_number: string | null;
-//   description: string;
-//   pdf_url: string | null;
-//   line_items: [];
-//   tax: [];
-//   request_code: string;
-//   status: string;
-//   paid: boolean;
-//   paid_at: string;
-//   metadata: string | null;
-//   offline_reference: string;
-//   customer: number;
-//   created_at: string;
-// };
-// type PaystackWebhookSuccessModel = {
-//   event: string;
-//   data: PaystackSuccessData;
-// };
 exports.requestPaystackPaymentUrl = functions.https.onCall(async (request, response) => {
     var _a, _b;
     try {

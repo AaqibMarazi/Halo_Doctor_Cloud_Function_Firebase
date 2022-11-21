@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DefaultDoctorAccountStatus = exports.Currency = exports.CurrencySign = exports.DoctorDefaultBasePrice = void 0;
+exports.DefaultDoctorAccountStatus = exports.CURRENCY = exports.CurrencySign = exports.DoctorDefaultBasePrice = void 0;
 const collections_1 = require("./collections");
 /**
  * Default doctor base price upon registration
  */
 exports.DoctorDefaultBasePrice = 10;
 exports.CurrencySign = `$`;
-exports.Currency = `USD`;
+exports.CURRENCY = `USD`;
 /**
  * default doctor account status upon registration
  */
