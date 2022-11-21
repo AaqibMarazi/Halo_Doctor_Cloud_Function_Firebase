@@ -11,6 +11,11 @@ export enum Role {
   Admin = "admin",
 }
 
+export enum AccountStatus {
+  Active = "active",
+  NonActive = "nonactive",
+}
+
 export type OrderModel = {
   charged: boolean;
   status: OrderStatus;

@@ -25,8 +25,8 @@ exports.generateToken = functions.https.onCall(async (request, response) => {
         // calculate privilege expire time
         const currentTime = Math.floor(Date.now() / 1000);
         const privilegeExpireTime = currentTime + expireTime;
-        const agoraAppId = functions.config().agora.agora_appid;
-        const agoraCertificate = functions.config().agora.agora_certificate;
+        const agoraAppId = process.env.AGORA_APP_ID;
+        const agoraCertificate = process.env.AGORA_CERTIFICATE;
         const token = RtcTokenBuilder.buildTokenWithUid(agoraAppId, agoraCertificate, channelName, uid, role, privilegeExpireTime);
         console.log("token : " + token);
         console.log("room name : " + channelName);

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.usersCol = exports.doctorCol = exports.timeSlotCol = exports.orderCol = exports.Role = exports.OrderStatus = void 0;
+exports.usersCol = exports.doctorCol = exports.timeSlotCol = exports.orderCol = exports.AccountStatus = exports.Role = exports.OrderStatus = void 0;
 const firebase_admin_1 = require("firebase-admin");
 var OrderStatus;
 (function (OrderStatus) {
@@ -13,6 +13,11 @@ var Role;
     Role["User"] = "user";
     Role["Admin"] = "admin";
 })(Role = exports.Role || (exports.Role = {}));
+var AccountStatus;
+(function (AccountStatus) {
+    AccountStatus["Active"] = "active";
+    AccountStatus["NonActive"] = "nonactive";
+})(AccountStatus = exports.AccountStatus || (exports.AccountStatus = {}));
 const createCollection = (collectionName) => {
     return (0, firebase_admin_1.firestore)().collection(collectionName);
 };

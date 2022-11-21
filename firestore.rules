@@ -5,6 +5,11 @@ service cloud.firestore {
   match /Users/{userId}{
     allow create: if true;
     allow read, update:if isAuthenticated();
+      match /doctorId 
+      {
+        allow read;
+        allow write: if false;
+      }
     }
     
     match /Doctors/{doctorId}{
@@ -14,6 +19,10 @@ service cloud.firestore {
     	match /balance {
       allow read:if isAuthenticated() && get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.role == 'doctor';
       }
+      match /accountStatus {
+        allow update: if false;
+      }
+
     allow update:if get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.doctorId == resource.id || isAdmin();
     }
   
@@ -25,7 +34,7 @@ service cloud.firestore {
     match /DoctorTimeslot/{timeslotId}{
     // allow create timeslot only role doctor
     allow create: if isAuthenticated() && get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.role == 'doctor';
-    allow read: if isAuthenticated();
+    allow read: if isAuthenticated() || isAdmin();
     allow update,delete: if get(/databases/$(database)/documents/Users/$(request.auth.uid)).data.doctorId == resource.data.doctorId;
     }
   

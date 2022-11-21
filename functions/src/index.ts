@@ -7,13 +7,29 @@ const userFunction = require("./user-functions");
 const timeSlotFunction = require("./timeslot-function");
 const withdrawFunction = require("./withdraw-functions");
 import * as admin from "firebase-admin";
+import {
+  DoctorDefaultBasePrice,
+  DefaultDoctorAccountStatus,
+} from "./constants";
 const db = admin.firestore();
 const { firestore } = require("firebase-admin");
 
 exports.doctorAdded = functions.firestore
   .document("/Doctors/{doctorId}")
   .onCreate((snapshot, context) => {
-    snapshot.ref.update({ balance: 0 });
+    snapshot.ref.update({
+      balance: 0,
+      accountStatus: DefaultDoctorAccountStatus,
+      doctorBasePrice: DoctorDefaultBasePrice,
+    });
+    return Promise.resolve();
+  });
+exports.userAdded = functions.firestore
+  .document("/Users/{doctorId}")
+  .onCreate((snapshot, context) => {
+    if (snapshot.data().role == "doctor") {
+      snapshot.ref.update({ doctorId: snapshot.id });
+    }
     return Promise.resolve();
   });
 
