@@ -3,9 +3,9 @@ const stripeFunction = require("./stripe-function");
 const agoraFunction = require("./agora-functions");
 const notificationFunction = require("./notification-function");
 const doctorFunction = require("./doctor-functions");
-const userFunction = require("./user-functions");
 const timeSlotFunction = require("./timeslot-function");
 const withdrawFunction = require("./withdraw-functions");
+import { deleteUserPermanently } from "./user-functions";
 import * as admin from "firebase-admin";
 import {
   DoctorDefaultBasePrice,
@@ -94,6 +94,6 @@ exports.stripeWebhook = stripeFunction.stripeWebhook;
 exports.notificationStartAppointment =
   notificationFunction.notificationStartAppointment;
 exports.deleteDoctor = doctorFunction.deleteDoctor;
-exports.deleteUser = userFunction.deleteUser;
+exports.deleteUser = deleteUserPermanently;
 exports.rescheduleTimeslot = timeSlotFunction.rescheduleTimeslot;
 exports.withdrawRequiest = withdrawFunction.withdrawRequest;

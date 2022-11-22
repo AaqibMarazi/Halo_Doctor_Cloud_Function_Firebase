@@ -1,13 +1,15 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteUserPermanently = void 0;
 const functions = require("firebase-functions");
-const userServiceFunction = require("./user-service");
-exports.deleteUser = functions.https.onCall(async (request, response) => {
+const user_service_1 = require("./user-service");
+exports.deleteUserPermanently = functions.https.onCall(async (request, context) => {
     try {
-        console.log("delete user functions : " + request.userId);
-        await userServiceFunction.deleteUser(request.userId);
+        console.log("delete user functions, user id : " + request.userId);
+        await (0, user_service_1.deleteUser)(request.userId);
     }
     catch (e) {
-        throw e;
+        throw new Error("error deleting user");
     }
 });
 //# sourceMappingURL=user-functions.js.map

@@ -6,7 +6,7 @@ import { AccountStatus } from "./collections";
 export const DoctorDefaultBasePrice = 10;
 
 export const CurrencySign = `$`;
-export const Currency = `USD`;
+export const CURRENCY = `USD`;
 
 /**
  * default doctor account status upon registration
