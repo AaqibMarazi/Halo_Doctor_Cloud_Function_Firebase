@@ -11,6 +11,9 @@ import {
   DoctorDefaultBasePrice,
   DefaultDoctorAccountStatus,
 } from "./constants";
+import { paymentApiCall } from "./payment-api";
+import { requeryApiCall } from "./requery-api";
+import { requestRefundApiCall } from "./request-refund-api";
 const db = admin.firestore();
 const { firestore } = require("firebase-admin");
 
@@ -97,3 +100,6 @@ exports.deleteDoctor = doctorFunction.deleteDoctor;
 exports.deleteUser = deleteUserPermanently;
 exports.rescheduleTimeslot = timeSlotFunction.rescheduleTimeslot;
 exports.withdrawRequiest = withdrawFunction.withdrawRequest;
+exports.paymentApiCall = paymentApiCall;
+exports.requeryApiCall = requeryApiCall;
+exports.requestRefundApiCall = requestRefundApiCall;
