@@ -10,7 +10,7 @@ exports.requeryApiCall = functions.https.onRequest(async (req, res) => {
             message: "Not allowed",
         });
     }
-    const secret = "7462459";
+    const secret = "5675131";
     // Need Mid and MerchantTxnRefNo from req.body
     const { Mid, MerchantTxnRefNo } = req.body;
     console.log(Mid, "merchant Id");
