@@ -22,7 +22,7 @@ exports.requeryApiCall = functions.https.onRequest(async (req, res) => {
     console.log(HashMac, "Calculated hash mac");
     const dataToPost = {
         Mid,
-        HashMac,
+        HashMac: "7af026e1541c19c564f88c8ee5dc460a085def04bda82607c497aec43a3cfa67b8b978b80c4eccbd196a6075b1239913ea2224ee7077693b4f969108dc36fa23",
         MerchantTxnRefNo,
     };
     console.log(dataToPost);
