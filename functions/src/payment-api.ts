@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import * as functions from "firebase-functions";
 import axios from "axios";
 import * as admin from "firebase-admin";
@@ -79,5 +82,77 @@ export const paymentApiCall = functions.https.onRequest(
         message: "Something went wrong while initiating payment",
       });
     }
+  }
+);
+
+export const paymentSuccessApiCall = functions.https.onRequest(
+  async (req: any, res: any) => {
+    if (req.method !== "POST") {
+      return res.status(401).json({
+        message: "Not allowed",
+      });
+    }
+
+    const { paidAmount, unique_txn_uid, currency } = req.body;
+
+    let order: any = await admin
+      .firestore()
+      .collection("Order")
+      .where("bookeeyPaymentId", "==", unique_txn_uid)
+      .get()
+      .then(async (querySnapshot: any) => {
+        let orderData = {};
+        querySnapshot.forEach(function (doc: any) {
+          console.log(doc.id, " => ", doc.data());
+          doc.ref.update({
+            charged: true,
+            amount: Number(paidAmount / 100),
+            status: "payment_success",
+            // linkReceipt: linkReceipt,
+            currency: currency,
+          });
+          orderData = doc.data();
+        });
+        return orderData;
+      });
+
+    //Get user info who book this timeslot
+    let bookByWho = await admin
+      .firestore()
+      .collection("Users")
+      .doc(order?.userId)
+      .get();
+    //Update DoctorTimeslot
+    let timeSlotRef = await admin
+      .firestore()
+      .collection("DoctorTimeslot")
+      .doc(order.timeSlotId)
+      .get();
+    //Get doctor detail data
+    let doctor = await admin
+      .firestore()
+      .collection("Doctors")
+      .doc(timeSlotRef.data().doctorId)
+      .get();
+
+    await timeSlotRef.ref.update({
+      charged: true,
+      available: false,
+      bookByWho: {
+        userId: order.userId,
+        displayName: bookByWho.data().displayName,
+        photoUrl: bookByWho.data().photoUrl ? bookByWho.data().photoUrl : "",
+      },
+      status: "booked",
+      doctor: {
+        doctorName: doctor.data().doctorName,
+        doctorPicture: doctor.data().doctorPicture,
+      },
+      purchaseTime: admin.firestore.Timestamp.fromDate(new Date()),
+    });
+
+    res
+      .status(200)
+      .json({ status: "success", message: "Slot Booking Successfully Done" });
   }
 );

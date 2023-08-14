@@ -93,6 +93,7 @@ exports.deleteUser = user_functions_1.deleteUserPermanently;
 exports.rescheduleTimeslot = timeSlotFunction.rescheduleTimeslot;
 exports.withdrawRequiest = withdrawFunction.withdrawRequest;
 exports.paymentApiCall = payment_api_1.paymentApiCall;
+exports.paymentSuccessApiCall = payment_api_1.paymentSuccessApiCall;
 exports.requeryApiCall = requery_api_1.requeryApiCall;
 exports.requestRefundApiCall = request_refund_api_1.requestRefundApiCall;
 //# sourceMappingURL=index.js.map
