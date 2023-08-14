@@ -83,13 +83,9 @@ exports.paymentSuccessApiCall = functions.https.onRequest(async (req, res) => {
         let orderData = {};
         querySnapshot.forEach(function (doc) {
             console.log(doc.id, " => ", doc.data());
-            doc.ref.update({
-                charged: true,
-                amount: Number(paidAmount / 100),
-                status: "payment_success",
+            doc.ref.update(Object.assign(Object.assign({ charged: true }, (paidAmount && { amount: Number(paidAmount / 100) })), { status: "payment_success", 
                 // linkReceipt: linkReceipt,
-                currency: currency,
-            });
+                currency: currency }));
             orderData = doc.data();
         });
         return orderData;

@@ -106,7 +106,7 @@ export const paymentSuccessApiCall = functions.https.onRequest(
           console.log(doc.id, " => ", doc.data());
           doc.ref.update({
             charged: true,
-            amount: Number(paidAmount / 100),
+            ...(paidAmount && { amount: Number(paidAmount / 100) }),
             status: "payment_success",
             // linkReceipt: linkReceipt,
             currency: currency,
