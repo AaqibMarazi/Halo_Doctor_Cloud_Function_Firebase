@@ -1,6 +1,6 @@
 import * as functions from "firebase-functions";
 import axios from "axios";
-const admin = require("firebase-admin");
+import * as admin from "firebase-admin";
 
 export const paymentApiCall = functions.https.onRequest(
   async (req: any, res: any) => {
@@ -12,7 +12,7 @@ export const paymentApiCall = functions.https.onRequest(
 
     function generateUniqueNumber() {
       let uniqueNumber = "";
-      var digits = "0123456789";
+      let digits = "0123456789";
 
       for (let i = 0; i < 16; i++) {
         const randomIndex = Math.floor(Math.random() * digits.length);
@@ -25,26 +25,53 @@ export const paymentApiCall = functions.https.onRequest(
       return uniqueNumber;
     }
 
-    const unique_txn_uid = generateUniqueNumber();
-
-    console.log("generatewd Unique ID", unique_txn_uid);
-
-    // set UID in the req.body
-    req.body.Do_TxnHdr.Merch_Txn_UID = unique_txn_uid;
-
-    console.log(req.body);
-
-    const userId = req.body.Do_PyrDtl.Pyr_UID;
-
     try {
+      const unique_txn_uid = generateUniqueNumber();
+
+      // Set UID in the req.body
+      req.body.Do_TxnHdr.Merch_Txn_UID = unique_txn_uid;
+
+      const userId = req.body.Do_PyrDtl.Pyr_UID;
+      const timeSlotId = req.body.Do_PyrDtl.Time_Slot_ID;
+
+      const purchasedTimeSlotSnapshot = await admin
+        .firestore()
+        .collection("DoctorTimeslot")
+        .doc(timeSlotId)
+        .get();
+      const purchasedTimeSlot = purchasedTimeSlotSnapshot.data();
+
+      const amount = purchasedTimeSlot?.price * 100;
+
+      // Setting Amount in req.body
+      req.body.Do_TxnDtl[0].Txn_AMT = amount;
+
       const documentRef = admin.firestore().collection("Users").doc(userId);
-      documentRef.update({ Merch_Txn_UID: unique_txn_uid }).then(async () => {
-        const response = await axios.post(
-          "https://demo.bookeey.com/pgapi/api/payment/requestLink",
-          req.body
-        );
-        console.log(response.data, "After call Log");
-        return res.status(200).json({ response: response.data });
+      await documentRef.update({ Merch_Txn_UID: unique_txn_uid });
+
+      const response = await axios.post(
+        "https://demo.bookeey.com/pgapi/api/payment/requestLink",
+        req.body
+      );
+
+      const orderData = {
+        createdAt: admin.firestore.Timestamp.fromDate(new Date()),
+        timeSlotId: timeSlotId,
+        userId: userId,
+        charged: false,
+        bookeeyPaymentId: unique_txn_uid,
+        status: "notPay",
+      };
+      const orderRef = await admin
+        .firestore()
+        .collection("Order")
+        .add(orderData);
+
+      return res.status(200).json({
+        paymentURL: response.data,
+        unique_txn_uid,
+        bookedTimeSlotId: timeSlotId,
+        orderId: orderRef.id,
       });
     } catch (error) {
       console.error(error);
